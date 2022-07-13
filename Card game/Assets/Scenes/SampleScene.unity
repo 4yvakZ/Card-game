@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfSequences: 10
   numberOfBatches: 4
-  cardsSprites:
+  cardsTextures:
   - {fileID: 2800000, guid: dafba08b26b1c264b819ab2ceb26b047, type: 3}
   - {fileID: 2800000, guid: 284e16b66c5c923439d7489d800c2112, type: 3}
   - {fileID: 2800000, guid: e21e2e62ee57dbe4d918b36f1f36aa92, type: 3}

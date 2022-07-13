@@ -10,11 +10,11 @@ public class Card : MonoBehaviour
     public readonly string cardName;
     public readonly int index;
 
-    public Card(Card backCard, string name)
+    public Card(Card backCard, string name, int index)
     {
         BackCard = backCard;
         FrontCard = null;
         cardName = name;
-        index = Random.Range(0, 4);
+        this.index = index;
     }
 }
