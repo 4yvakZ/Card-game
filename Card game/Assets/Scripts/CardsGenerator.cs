@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CardsGenerator : MonoBehaviour
 {
@@ -11,10 +10,10 @@ public class CardsGenerator : MonoBehaviour
     readonly string[] cardsNames = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A" };
 
     private Card bankTopCard = null;
-    private List<Card> batchesTopCards;
+    private List<Card> batchesTopCards = new List<Card>();
 
     [Header("UI")]
-    [SerializeField] private List<Sprite> cardsSprites;
+    [SerializeField] private List<Texture> cardsSprites;
     private Dictionary<string, List<Texture>> cardsTextures = new Dictionary<string, List<Texture>>();
 
 
@@ -32,11 +31,15 @@ public class CardsGenerator : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
-    private void PlaceBank()
+    private void OnGUI()
     {
+        GUI.backgroundColor = new Color(0,0,0,0);
+        Texture bankCardTexture = cardsTextures[bankTopCard.cardName][bankTopCard.index];
+        GUI.Button(new Rect(10, 10, bankCardTexture.width, bankCardTexture.height),
+            bankCardTexture);
         
     }
     private void InitBatches()
@@ -53,11 +56,11 @@ public class CardsGenerator : MonoBehaviour
             var list = new List<Texture>();
             for (int j = i; j < cardsSprites.Count; j+=13)
             {
-                list.Add(cardsSprites[j].texture);
+                list.Add(cardsSprites[j]);
             }
             cardsTextures.Add(cardsNames[i], list);
         }
-        cardsTextures.Add("back", new List<Texture>() { cardsSprites[cardsSprites.Count - 1].texture });
+        cardsTextures.Add("back", new List<Texture>() { cardsSprites[cardsSprites.Count - 1]});
     }
 
     private void GenerateCards()
@@ -66,13 +69,19 @@ public class CardsGenerator : MonoBehaviour
         {
             var sequence = GenerateSequence(Random.Range(2, 8));
             bankTopCard = new Card(bankTopCard, sequence[0]);
-            bankTopCard.FrontCard = bankTopCard;
+            if (bankTopCard.BackCard != null)
+            {
+                bankTopCard.BackCard.FrontCard = bankTopCard;
+            }
 
             for (int j = 1; j < sequence.Length; j++)
             {
                 int batchIndex = Random.Range(0, batchesTopCards.Count);
                 batchesTopCards[batchIndex] = new Card(batchesTopCards[batchIndex], sequence[j]);
-                batchesTopCards[batchIndex].BackCard.FrontCard = batchesTopCards[batchIndex];
+                if (batchesTopCards[batchIndex].BackCard != null)
+                {
+                    batchesTopCards[batchIndex].BackCard.FrontCard = batchesTopCards[batchIndex];
+                }
             }
         }
     }

@@ -8,11 +8,13 @@ public class Card : MonoBehaviour
 
     public Card BackCard { get;private set; }
     public readonly string cardName;
+    public readonly int index;
 
     public Card(Card backCard, string name)
     {
         BackCard = backCard;
         FrontCard = null;
-        this.cardName = name;
+        cardName = name;
+        index = Random.Range(0, 4);
     }
 }
